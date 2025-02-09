@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ProfileActivity">
+
+
+        <androidx.appcompat.widget.Toolbar
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/toolbar"
+            android:background="@color/md_white_1000"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
+
+
+        <!-- Profile Section -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rellay1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_image_holder"
+            android:paddingBottom="20dp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <!-- Profile Image -->
+            <FrameLayout
+                android:id="@+id/imgUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/cercle"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ImgUserV"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/ic_add"
+                    app:civ_border_color="@color/gradStart"
+                    app:civ_border_width="2dp"/>
+            </FrameLayout>
+
+            <!-- Name Section -->
+            <LinearLayout
+                android:id="@+id/nameContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/imgUser"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tv_prename"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/md_white_1000"
+                    android:textSize="32sp"
+                    android:fontFamily="sans-serif-light"/>
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/md_white_1000"
+                    android:textSize="32sp"
+                    android:layout_marginLeft="8dp"
+                    android:fontFamily="sans-serif-light"/>
+            </LinearLayout>
+
+            <!-- Address -->
+            <EditText
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textAllCaps="true"
+                android:textColor="@color/address"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/nameContainer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <!-- Settings Icon -->
+            <ImageView
+                android:id="@+id/action_settings"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_edit"
+                android:scaleType="centerInside"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Followers / Following -->
+        <LinearLayout
+            android:id="@+id/linlay1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/rellay1"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/followersBg"
+                android:gravity="center"
+                android:padding="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:text="453K"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    android:layout_width="wrap_content"
+                    android:fontFamily="sans-serif-light" android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="followers"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="13sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/followingBg"
+                android:gravity="center"
+                android:padding="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:text="873"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    android:fontFamily="sans-serif-light"/>
+
+                <TextView
+                    android:text="following"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- User Information -->
+        <LinearLayout
+            android:id="@+id/infos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="30dp"
+            app:layout_constraintTop_toBottomOf="@id/linlay1">
+
+            <TextView
+                android:text="Last Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/headings"
+                android:textSize="13sp"/>
+
+            <EditText
+                android:id="@+id/lastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#0000"
+                android:fontFamily="sans-serif-light"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

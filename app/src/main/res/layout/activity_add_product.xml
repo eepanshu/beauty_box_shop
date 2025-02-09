@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_margin="10dp"
+        tools:context=".AddProductActivtiy">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- ImageButton for Adding Product Image -->
+            <ImageButton
+                android:id="@+id/picture_added"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/md_purple_50"
+                android:src="@drawable/ic_add"
+                android:contentDescription="Add Product Image" />
+
+            <!-- Product Title Input Section -->
+            <LinearLayout
+                android:id="@+id/linear_nom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/picture_added"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:text="*TITLE"
+                    android:textColor="@color/md_black_1000"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/fieldAddNom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/back_edit"
+                    android:hint="Eyelash for your eyelashes.."
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/md_black_1000"
+                    android:textColorHint="@color/md_purple_50" />
+            </LinearLayout>
+
+            <!-- Product Category Section -->
+            <LinearLayout
+                android:id="@+id/linear_categorie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linear_nom"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:text="*CATEGORY"
+                    android:textColor="@color/md_black_1000"
+                    android:textSize="18sp" />
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/back_edit"
+                    android:padding="10dp" />
+            </LinearLayout>
+
+            <!-- Product Description Section -->
+            <LinearLayout
+                android:id="@+id/linear_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linear_categorie"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:text="DESCRIPTION"
+                    android:textColor="@color/md_black_1000"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/fieldAddDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/back_edit"
+                    android:gravity="top|start"
+                    android:hint="*Description"
+                    android:inputType="textMultiLine"
+                    android:lines="8"
+                    android:minLines="6"
+                    android:padding="10dp"
+                    android:scrollbars="vertical"
+                    android:textColor="@color/md_black_1000"
+                    android:textColorHint="@color/md_purple_50" />
+            </LinearLayout>
+
+            <!-- Product Price Section -->
+            <LinearLayout
+                android:id="@+id/linear_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linear_desc"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:text="*PRICE"
+                    android:textColor="@color/md_black_1000"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/fieldAddPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/back_edit"
+                    android:hint="e.g., 19.99"
+                    android:inputType="numberDecimal"
+                    android:padding="10dp"
+                    android:textColor="@color/md_black_1000"
+                    android:textColorHint="@color/md_purple_50" />
+            </LinearLayout>
+
+            <!-- Add Product Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_product_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linear_price"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="Add Product"
+                android:textColor="@color/white"
+                android:paddingLeft="90dp"
+                android:paddingRight="90dp"
+                app:backgroundTint="@color/md_green_500"
+                app:cornerRadius="6dp"
+                android:textSize="16sp" />
+        </RelativeLayout>
+    </ScrollView>
+</layout>
