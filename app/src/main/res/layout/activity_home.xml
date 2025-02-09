@@ -1,10 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".HomeActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<RelativeLayout
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".HomeActivity">
+
+<!-- Updated Toolbar -->
+<androidx.appcompat.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryDark"
+    android:minHeight="?attr/actionBarSize">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cosmetics"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+</androidx.appcompat.widget.Toolbar>
+
+<!-- ScrollView for Content -->
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/frame_container"
+    android:layout_below="@id/toolbar">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:scrollbars="none">
+
+            <!-- Updated RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/categories_rc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- HomeActivity HorizontalScrollView -->
+        <LinearLayout
+            android:id="@+id/new_products"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/scrollView"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:orientation="vertical">
+
+            <!-- New Products Header -->
+            <TextView
+                android:id="@+id/headerTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:text="NEW PRODUCTS"
+                android:textColor="#212121"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- Updated RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/products_rc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>
+
+<!-- Bottom Navigation -->
+<FrameLayout
+    android:id="@+id/frame_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <!-- Updated BottomNavigationView -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:foreground="?attr/selectableItemBackground"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@android:color/background_dark"
+        app:itemTextColor="@android:color/background_dark"
+        app:menu="@menu/bottom_navigation_home" />
+</FrameLayout>
+
+</RelativeLayout>
+
+</layout>

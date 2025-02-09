@@ -11,10 +11,12 @@ public class Product {
     private ArrayList img;
     private String img_product;
     private Double price;
+    private String base64Image; // Added field for base64Image
 
-    public Product(){}
+    public Product() {}
 
-    public Product(String id_product, String id_seller, String id_cat, String nom, String description, ArrayList img, Double price) {
+    // Constructor with base64Image
+    public Product(String id_product, String id_seller, String id_cat, String nom, String description, ArrayList img, Double price, String base64Image) {
         this.id_product = id_product;
         this.id_seller = id_seller;
         this.id_cat = id_cat;
@@ -22,8 +24,10 @@ public class Product {
         this.description = description;
         this.img = img;
         this.price = price;
+        this.base64Image = base64Image; // Initialize base64Image field
     }
 
+    // Constructor without base64Image for backward compatibility
     public Product(String id_product, String id_seller, String id_cat, String nom, String description, String img_product, Double price) {
         this.id_product = id_product;
         this.id_seller = id_seller;
@@ -34,7 +38,8 @@ public class Product {
         this.price = price;
     }
 
-    public Product(String id_product, String id_seller, String id_cat, String img_product, String nom, Double price)  {
+    // Constructor without base64Image for backward compatibility
+    public Product(String id_product, String id_seller, String id_cat, String img_product, String nom, Double price) {
         this.id_product = id_product;
         this.id_seller = id_seller;
         this.id_cat = id_cat;
@@ -43,6 +48,16 @@ public class Product {
         this.price = price;
     }
 
+    // Getter and setter for base64Image
+    public String getBase64Image() {
+        return base64Image;
+    }
+
+    public void setBase64Image(String base64Image) {
+        this.base64Image = base64Image;
+    }
+
+    // Getters and setters for other fields
     public String getId_product() {
         return id_product;
     }
@@ -106,6 +121,4 @@ public class Product {
     public void setPrice(Double price) {
         this.price = price;
     }
-
-
 }
