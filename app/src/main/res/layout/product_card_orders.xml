@@ -38,12 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/cardview_product_img_cart"
-<<<<<<< Updated upstream
             android:text="Lipstick"
-=======
-            android:text="Eau de toillette bla bla en"
-
->>>>>>> Stashed changes
             android:textColor="@color/md_black_1000"
             android:textStyle="bold" />
 

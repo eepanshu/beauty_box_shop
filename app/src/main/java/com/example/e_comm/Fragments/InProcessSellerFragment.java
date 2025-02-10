@@ -10,13 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 
 import com.example.e_comm.Helpers.Singleton;
-import com.example.e_comm.R;
 import com.example.e_comm.adapters.SellerOrdersAdapter;
-import com.example.e_comm.databinding.FragmentInShippedSellerBinding;
+import com.example.e_comm.databinding.FragmentInProcessSellerBinding;
 import com.example.e_comm.models.Order;
 import com.example.e_comm.models.Product;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,34 +23,28 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeSet;
 
-public class InShippedSellerFragment extends Fragment {
+public class InProcessSellerFragment extends Fragment {
 
-    private static final String TAG = "InShippedSellerFragment";
+    private FragmentInProcessSellerBinding binding;
+    private static final String TAG = "InProcessSellerFragment";
 
-    private FragmentInShippedSellerBinding binding;
     private FirebaseFirestore db;
     private SellerOrdersAdapter adapter;
-    private ArrayList<Order> ordersList = new ArrayList<>();
+    private ArrayList<Order> ordersList;
     private FirebaseUser user;
 
-    public InShippedSellerFragment() {
+    public InProcessSellerFragment() {
         // Required empty public constructor
     }
 
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        db = Singleton.getDb();
-        user = Singleton.getUser();
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = FragmentInShippedSellerBinding.inflate(inflater, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        binding = FragmentInProcessSellerBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -61,38 +52,50 @@ public class InShippedSellerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        db = Singleton.getDb();
+        user = Singleton.getUser();
+        ordersList = new ArrayList<>();
+
         setupRecyclerView();
         fetchOrders();
     }
 
     private void setupRecyclerView() {
-        binding.usersOrdersRcInshipped.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.usersOrdersRcInshipped.setHasFixedSize(true);
-        adapter = new SellerOrdersAdapter(ordersList, requireContext(), null);
-        binding.usersOrdersRcInshipped.setAdapter(adapter);
+        binding.usersOrdersRcInprocess.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.usersOrdersRcInprocess.setHasFixedSize(true);
+
+        adapter = new SellerOrdersAdapter(new ArrayList<>(), getContext(), (view, order) -> {
+            // Handle item click here
+            Log.d(TAG, "Order Clicked: " + order.getId_order());
+        });
+
+        binding.usersOrdersRcInprocess.setAdapter(adapter);
     }
 
+
     private void fetchOrders() {
-        db.collection("orders").whereEqualTo("status", 1)
+        db.collection("orders")
+                .whereEqualTo("status", 0)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         ordersList.clear();
-
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            ArrayList<Map> productsInOrder = (ArrayList<Map>) document.get("products");
+                            ArrayList<Map<String, Object>> productsInOrder =
+                                    (ArrayList<Map<String, Object>>) document.get("products");
+
                             ArrayList<Product> productArrayList = new ArrayList<>();
-                            Set<String> sellerIds = new TreeSet<>();
+                            TreeSet<String> sellerIds = new TreeSet<>();
 
                             if (productsInOrder != null) {
-                                for (Map myMap : productsInOrder) {
+                                for (Map<String, Object> map : productsInOrder) {
                                     Product product = new Product();
-                                    product.setPrice((Double) myMap.get("price"));
-                                    product.setImg_product(myMap.get("img_product").toString());
-                                    product.setNom(myMap.get("nom").toString());
-                                    product.setId_seller(myMap.get("id_seller").toString());
-                                    product.setDescription(myMap.get("description").toString());
-                                    product.setId_cat(myMap.get("id_cat").toString());
+                                    product.setPrice((Double) map.get("price"));
+                                    product.setImg_product(map.get("img_product").toString());
+                                    product.setNom(map.get("nom").toString());
+                                    product.setId_seller(map.get("id_seller").toString());
+                                    product.setDescription(map.get("description").toString());
+                                    product.setId_cat(map.get("id_cat").toString());
 
                                     if (user.getUid().equals(product.getId_seller())) {
                                         productArrayList.add(product);
@@ -114,10 +117,10 @@ public class InShippedSellerFragment extends Fragment {
                             }
                         }
 
-                        Log.v(TAG, "Orders Loaded: " + ordersList);
-                        adapter.notifyDataSetChanged();
+                        Log.d(TAG, "Orders fetched: " + ordersList);
+
                     } else {
-                        Log.e(TAG, "Error getting orders", task.getException());
+                        Log.w(TAG, "Error fetching orders.", task.getException());
                     }
                 });
     }
@@ -125,6 +128,6 @@ public class InShippedSellerFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null; // Avoid memory leaks
+        binding = null; // Prevent memory leaks
     }
 }

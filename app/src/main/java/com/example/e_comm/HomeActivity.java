@@ -62,11 +62,10 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Class<?> activityClass = null;
                 if (item.getItemId() == R.id.home_button) {
-<<<<<<< Updated upstream
+
                     activityClass = UsersOrdersActivity.class;
-=======
-//                    activityClass = UsersOrders.class;
->>>>>>> Stashed changes
+
+
                 } else if (item.getItemId() == R.id.navigation_cart) {
                     activityClass = CartActivity.class;
                 } else if (item.getItemId() == R.id.profil_button) {
@@ -150,7 +149,7 @@ public class HomeActivity extends AppCompatActivity {
                             (String) data.get("description"),
                             images,
                             price,
-                            base64Image  // Add the Base64 image data to the product
+                            base64Image
                     );
                     productList.add(product);
                 }

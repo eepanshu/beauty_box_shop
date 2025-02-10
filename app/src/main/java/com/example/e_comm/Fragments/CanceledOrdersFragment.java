@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 
 import com.example.e_comm.Helpers.Singleton;
+import com.example.e_comm.adapters.SellerOrdersAdapter;
+import com.example.e_comm.clicklistners.RecyclerViewClickListenerOrder;
 import com.example.e_comm.databinding.FragmentCanceledOrdersBinding;
 import com.example.e_comm.models.Order;
 import com.example.e_comm.models.Product;
@@ -35,6 +37,7 @@ public class CanceledOrdersFragment extends Fragment {
     private ArrayList<Order> ordersList;
     private FirebaseUser user;
     private static final String TAG = "CanceledOrdersFragment";
+    private SellerOrdersAdapter adapter;
 
     public CanceledOrdersFragment() {
         // Required empty public constructor
@@ -56,11 +59,13 @@ public class CanceledOrdersFragment extends Fragment {
         user = Singleton.getUser();
         ordersList = new ArrayList<>();
 
-        // Setup RecyclerView
-//        binding.recyclerViewOrders.setLayoutManager(new LinearLayoutManager(getContext()));
-//        binding.recyclerViewOrders.setHasFixedSize(true);
 
-        // Fetch canceled orders
+
+//         Setup RecyclerView
+        binding.canceledOrdersRc.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.canceledOrdersRc.setHasFixedSize(true);
+
+//         Fetch canceled orders
         getCanceledOrders();
 
         return view;
@@ -118,21 +123,23 @@ public class CanceledOrdersFragment extends Fragment {
                 });
     }
 
-//    private void updateRecyclerView() {
-//        if (adapter == null) {
-//            adapter = new SellerOrdersAdapter(ordersList, getContext(), new RecyclerViewClickListenerOrder() {
-//                @Override
-//                public void onItemClick(Order order) {
-//                    // Handle item click if needed
-//                }
-//            });
-//            binding.recyclerViewOrders.setAdapter(adapter);
-//        } else {
-//            adapter.getItems().clear();
-//            adapter.getItems().addAll(ordersList);
-//            adapter.notifyDataSetChanged();
-//        }
-//    }
+    private void updateRecyclerView() {
+        if (adapter == null) {
+            adapter = new SellerOrdersAdapter(ordersList, getContext(), new RecyclerViewClickListenerOrder() {
+                @Override
+                public void onClick(View view, Order product) {
+
+                }
+
+
+            });
+            binding.canceledOrdersRc.setAdapter(adapter);
+        } else {
+            adapter.getItems().clear();
+            adapter.getItems().addAll(ordersList);
+            adapter.notifyDataSetChanged();
+        }
+    }
 
     @Override
     public void onDestroyView() {

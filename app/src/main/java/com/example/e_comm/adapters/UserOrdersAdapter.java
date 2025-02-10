@@ -72,7 +72,7 @@ public class UserOrdersAdapter extends RecyclerView.Adapter<UserOrdersAdapter.Vi
             rc_products.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.VERTICAL, false));
 
             // Pass the third argument (click listener) to ProductsOrdersAdapter
-            rc_products.setAdapter(new ProductsOrdersAdapter(mOrderProducts, itemView.getContext(), mClickListener));
+            rc_products.setAdapter(new ProductOrdersAdapter(mOrderProducts, itemView.getContext()));
         }
     }
 }

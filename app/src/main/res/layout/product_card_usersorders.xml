@@ -45,13 +45,7 @@
                 android:textSize="18sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-<<<<<<< Updated upstream
-                android:text="Lipstick"
-=======
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Eau de toillette bla bla en"
->>>>>>> Stashed changes
-                android:textColor="@color/md_black_1000" />
+                android:text="Eau de toillette bla bla " />
 
             <TextView
                 android:id="@+id/product_price"
