@@ -72,7 +72,7 @@ public class SellerHomeActivity extends AppCompatActivity {
     }
 
     private void getProducts() {
-        db.collection("products").whereEqualTo("id_seller", mAuth.getCurrentUser().getUid())
+        db.collection("Products").whereEqualTo("sellerId", mAuth.getCurrentUser().getUid())
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

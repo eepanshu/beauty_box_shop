@@ -1,10 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ProductActivity">
+    xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ProductActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Image Holder -->
+        <RelativeLayout
+            android:id="@+id/image_holder"
+            android:layout_width="match_parent"
+            android:layout_height="230dp">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/imageViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"/>
+
+        </RelativeLayout>
+
+        <!-- Main Content -->
+        <RelativeLayout
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image_holder"
+            android:layout_margin="10dp">
+
+            <LinearLayout
+                android:id="@+id/description_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Title and Buy Button -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/title_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="Jasmine Perfume"
+                        android:textColor="#000"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buy_now"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginTop="10dp"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="8dp"
+                        android:text="Buy Now"
+                        android:textColor="@android:color/white"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:icon="@drawable/ic_shopping_cart"
+                        app:iconTint="@android:color/white"
+                        app:iconPadding="8dp" />
+                </RelativeLayout>
+
+                <!-- Price -->
+                <TextView
+                    android:id="@+id/price_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="11.99$"
+                    android:textColor="#E62121"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <!-- Description -->
+                <TextView
+                    android:id="@+id/description_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="abc xyz"
+                    android:textColor="#000"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Seller Information -->
+        <RelativeLayout
+            android:id="@+id/seller_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/main"
+            android:background="@color/md_grey_100"
+            android:padding="10dp">
+
+            <!-- Circular Profile Image -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_home"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp" />
+
+            <!-- Seller Name -->
+            <TextView
+                android:id="@+id/seller_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/profile_image"
+
+                android:text="Amine Karimi"
+                android:textColor="@color/md_black_1000"
+                android:textSize="18sp" />
+
+            <!-- Button to Contact the Seller -->
+            <Button
+                android:id="@+id/btn_bottom_sheet_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="12dp"
+                android:text="Contact Seller" />
+        </RelativeLayout>
+
+        <!-- Bottom Navigation and Frame Container -->
+        <FrameLayout
+            android:id="@+id/frame_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/seller_info"
+            android:visibility="gone"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/navigation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="?android:attr/windowBackground"
+                app:itemBackground="@color/colorPrimary"
+                app:itemIconTint="@android:color/background_dark"
+                app:itemTextColor="@android:color/background_dark"
+                app:menu="@menu/bottom_navigation" />
+        </FrameLayout>
+
+        <!-- Coordinator Layout -->
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/frame_container">
+
+            <include layout="@layout/contain_main_sheet" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </RelativeLayout>
+
+</layout>

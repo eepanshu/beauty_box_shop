@@ -62,7 +62,11 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Class<?> activityClass = null;
                 if (item.getItemId() == R.id.home_button) {
+<<<<<<< Updated upstream
                     activityClass = UsersOrdersActivity.class;
+=======
+//                    activityClass = UsersOrders.class;
+>>>>>>> Stashed changes
                 } else if (item.getItemId() == R.id.navigation_cart) {
                     activityClass = CartActivity.class;
                 } else if (item.getItemId() == R.id.profil_button) {

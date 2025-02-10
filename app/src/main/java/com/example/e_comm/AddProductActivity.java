@@ -3,6 +3,7 @@ package com.example.e_comm;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -23,19 +24,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AddProductActivity extends AppCompatActivity {
 
-    private ActivityAddProductBinding binding;
     private static final int PICK_IMAGE_REQUEST = 1;
+    private ActivityAddProductBinding binding;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private Uri filePath;
-    private Spinner spinner;
-    private String base64Image = "";
+    private Spinner categorySpinner;
+    private ProgressDialog progressDialog;
+    private String encodedImage; // Stores the Base64-encoded image
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,30 +49,24 @@ public class AddProductActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
-        // Set listeners
-        binding.pictureAdded.setOnClickListener(v -> pickFromGallery());
-        binding.addProductButton.setOnClickListener(v -> onAddProductClicked());
+        // Setup UI interactions
+        binding.pictureAdded.setOnClickListener(v -> pickImageFromGallery());
+        binding.addProductButton.setOnClickListener(v -> addProduct());
 
-        loadCategories();
+        setupCategorySpinner();
     }
 
-    private void loadCategories() {
-        ArrayList<String> categories = new ArrayList<>();
-        categories.add("Electronics");
-        categories.add("Clothing");
-        categories.add("Home & Kitchen");
-        categories.add("Books");
-
-        spinner = binding.spinner;
+    private void setupCategorySpinner() {
+        String[] categories = {"Electronics", "Clothing", "Home & Kitchen", "Books"};
+        categorySpinner = binding.spinner;
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        categorySpinner.setAdapter(adapter);
     }
 
-    private void pickFromGallery() {
-        Intent intent = new Intent();
+    private void pickImageFromGallery() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
@@ -80,59 +75,104 @@ public class AddProductActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                base64Image = encodeImage(bitmap);
-                Glide.with(this).load(filePath).into(binding.pictureAdded);
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Failed to process image", Toast.LENGTH_SHORT).show();
-            }
+            Glide.with(this).load(filePath).into(binding.pictureAdded);
+            encodeImageToBase64(filePath); // Convert the image to Base64
         }
     }
 
-    private String encodeImage(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
-        byte[] byteArray = baos.toByteArray();
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    private void encodeImageToBase64(Uri imageUri) {
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
+            byte[] byteArray = byteArrayOutputStream.toByteArray();
+            encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        } catch (IOException e) {
+            showToast("Error encoding image: " + e.getMessage());
+        }
     }
 
-    public void onAddProductClicked() {
+    private void addProduct() {
         if (auth.getCurrentUser() == null) {
-            Toast.makeText(this, "User not authenticated. Please log in again.", Toast.LENGTH_SHORT).show();
+            showToast("User not authenticated. Please log in again.");
             return;
         }
 
         String productName = binding.fieldAddNom.getText().toString().trim();
         String productDescription = binding.fieldAddDesc.getText().toString().trim();
         String productPrice = binding.fieldAddPrice.getText().toString().trim();
-        String productCategory = spinner.getSelectedItem() != null ? spinner.getSelectedItem().toString() : "";
+        String productCategory = categorySpinner.getSelectedItem().toString();
 
-        if (productName.isEmpty() || productDescription.isEmpty() || productPrice.isEmpty() || base64Image.isEmpty()) {
-            Toast.makeText(this, "Please fill all fields and select an image", Toast.LENGTH_SHORT).show();
-            return;
+        if (validateInputs(productName, productDescription, productPrice, productCategory)) {
+            saveProductToFirestore(productName, productDescription, productPrice, productCategory);
+        }
+    }
+
+    private boolean validateInputs(String name, String description, String price, String category) {
+        if (name.isEmpty() || description.isEmpty() || price.isEmpty() || encodedImage == null) {
+            showToast("Please fill all fields and select an image.");
+            return false;
         }
 
-        ProgressDialog progressDialog = new ProgressDialog(this);
+        try {
+            Double.parseDouble(price); // Validate numeric price
+        } catch (NumberFormatException e) {
+            showToast("Please enter a valid price.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void saveProductToFirestore(String name, String description, String price, String category) {
+        progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Saving Product...");
+        progressDialog.setCancelable(false);
         progressDialog.show();
 
-        Map<String, Object> product = new HashMap<>();
-        product.put("name", productName);
-        product.put("description", productDescription);
-        product.put("price", productPrice);
-        product.put("category", productCategory);
-        product.put("image", base64Image);
+        String userId = auth.getCurrentUser().getUid();
+        String productId = db.collection("Products").document().getId();
 
-        db.collection("Users").document(auth.getCurrentUser().getUid()).collection("Products").add(product)
-                .addOnSuccessListener(documentReference -> {
-                    progressDialog.dismiss();
-                    Toast.makeText(this, "Product Added Successfully", Toast.LENGTH_SHORT).show();
+        Map<String, Object> product = new HashMap<>();
+        product.put("productId", productId);
+        product.put("name", name);
+        product.put("description", description);
+        product.put("price", price);
+        product.put("category", category);
+        product.put("sellerId", userId);
+        product.put("imageBase64", encodedImage); // Storing the Base64 image string
+
+        // Store product in Firestore
+        db.collection("Products").document(productId)
+                .set(product)
+                .addOnSuccessListener(aVoid -> storeProductInUserCollection(userId, productId, product))
+                .addOnFailureListener(e -> {
+                    dismissProgressDialog();
+                    showToast("Error adding product: " + e.getMessage());
+                });
+    }
+
+    private void storeProductInUserCollection(String userId, String productId, Map<String, Object> product) {
+        db.collection("Users").document(userId)
+                .collection("MyProducts").document(productId)
+                .set(product)
+                .addOnSuccessListener(aVoid -> {
+                    dismissProgressDialog();
+                    showToast("Product added successfully!");
                 })
                 .addOnFailureListener(e -> {
-                    progressDialog.dismiss();
-                    Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    dismissProgressDialog();
+                    showToast("Error saving to user collection: " + e.getMessage());
                 });
+    }
+
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

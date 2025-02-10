@@ -1,19 +1,18 @@
 package com.example.e_comm.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
 import com.example.e_comm.R;
 import com.example.e_comm.clicklistners.RecyclerViewClickListenerProduct;
+import com.example.e_comm.databinding.ProductCardListBinding;
 import com.example.e_comm.models.Product;
 
 import java.util.ArrayList;
@@ -21,9 +20,9 @@ import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
 
-    private List<Product> products;
-    private Context context;
-    private RecyclerViewClickListenerProduct mClickListener;
+    private final List<Product> products;
+    private final Context context;
+    private final RecyclerViewClickListenerProduct mClickListener;
 
     public ProductAdapter(List<Product> products, Context context, RecyclerViewClickListenerProduct mClickListener) {
         this.products = new ArrayList<>(products);
@@ -34,9 +33,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.product_card_list,
-                viewGroup, false);
-        return new ViewHolder(v);
+        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+        ProductCardListBinding binding = DataBindingUtil.inflate(inflater, R.layout.product_card_list, viewGroup, false);
+        return new ViewHolder(binding);
     }
 
     @Override
@@ -55,39 +54,33 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private final ProductCardListBinding binding;
 
-        private Product mProduct;
-        private ImageView productImg;
-        private TextView produitNom;
-        private TextView produitPrice;
-
-        ViewHolder(View v) {
-            super(v);
-            productImg = itemView.findViewById(R.id.product_img);
-            produitNom = itemView.findViewById(R.id.product_title);
-            produitPrice = itemView.findViewById(R.id.product_price);
-            v.setOnClickListener(this);
+        ViewHolder(ProductCardListBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
-        @SuppressLint("SetTextI18n")
         void bindModel(Product product) {
-            this.mProduct = product;
-            produitNom.setText(mProduct.getNom());
-            produitPrice.setText(mProduct.getPrice() + " MAD");
+            binding.setProduct(product);
+            binding.executePendingBindings();
 
-            if (mProduct.getImg() != null && !mProduct.getImg().isEmpty()) {
-                Glide.with(context)
-                        .load(mProduct.getImg().get(0))  // Load first image
-                        .into(productImg);
-            } else {
-                // Default image
+
+            if (product.getImg() != null && !product.getImg().isEmpty()) {
+                String base64Image = String.valueOf(product.getImg().get(0));
+
+                if (base64Image != null && !base64Image.isEmpty()) {
+                    String imageDataUrl = "data:image/jpeg;base64," + base64Image;
+
+                    Glide.with(context)
+                            .load(imageDataUrl)
+
+                            .into(binding.productImg);
+                }
             }
-        }
 
-        @Override
-        public void onClick(View view) {
-            mClickListener.onClick(view, mProduct);
+            binding.getRoot().setOnClickListener(v -> mClickListener.onClick(v, product));
         }
     }
 }
