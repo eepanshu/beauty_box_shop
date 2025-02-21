@@ -4,48 +4,66 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:fitsSystemWindows="true"
+    android:layout_margin="12dp"
     app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="6dp">
+    app:cardCornerRadius="10dp"
+    app:cardElevation="6dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="16dp"
         android:orientation="vertical">
 
         <!-- Order ID Layout -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="space-between">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Order ID: "
-                android:textColor="@color/gray"
-                android:textSize="16sp" />
+                android:text="Order ID:"
+                android:textColor="@color/md_black_1000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/product_title_cart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Order ID:"
-                android:textColor="@color/gray"
+                android:text="123456789"
+                android:textColor="@color/md_grey_700"
                 android:textSize="16sp" />
         </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/md_grey_300" />
 
         <!-- Order Price -->
         <TextView
             android:id="@+id/product_price_cart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="11.99$"
-            android:textColor="@color/md_grey_600"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="10dp"
+            android:text="Total Price: ₹1199"
+            android:textColor="@color/md_red_700"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="end" />
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/md_grey_300" />
 
         <!-- Product List -->
         <androidx.recyclerview.widget.RecyclerView
@@ -53,32 +71,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
-            android:overScrollMode="never"/>
+            android:overScrollMode="never"
+            android:layout_marginTop="10dp" />
 
         <!-- Action Buttons -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
+            android:gravity="end"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/check"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="12dp"
                 android:background="@drawable/check_btn"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:text="Deliver"
-                android:textColor="@android:color/white"/>
+                android:textSize="14sp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/cancel"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:background="@drawable/cancel_btn"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:text="Cancel"
-                android:textColor="@android:color/white"/>
+                android:textSize="14sp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>

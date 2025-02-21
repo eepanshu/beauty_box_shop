@@ -9,33 +9,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- App Bar with Toolbar and Tabs -->
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                app:titleTextColor="@color/md_black_1000"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                app:title="Your Orders"
+                app:titleTextColor="@color/white"
+                app:popupTheme="@style/ThemeOverlay.Material3.Light" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabTextColor="@color/md_black_1000"
+                app:tabSelectedTextColor="@color/followersBg"
+                app:tabIndicatorColor="@color/followers"
                 app:tabMode="fixed"
                 app:tabGravity="fill"/>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.viewpager.widget.ViewPager
+        <!-- ViewPager2 for Swiping Between Tabs -->
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

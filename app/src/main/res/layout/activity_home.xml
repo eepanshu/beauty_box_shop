@@ -1,112 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<layout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-<RelativeLayout
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".HomeActivity">
-
-<!-- Updated Toolbar -->
-<androidx.appcompat.widget.Toolbar
-    android:id="@+id/toolbar"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorPrimaryDark"
-    android:minHeight="?attr/actionBarSize">
+    android:layout_height="match_parent"
+    tools:context=".HomeActivity">
 
-    <TextView
+    <!-- Toolbar for Home -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cosmetics"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-</androidx.appcompat.widget.Toolbar>
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/second"
+        app:title="Beauty Box Shop"
+        app:titleTextColor="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-<!-- ScrollView for Content -->
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_above="@+id/frame_container"
-    android:layout_below="@id/toolbar">
+    <!-- Banner Image -->
+    <ImageView
+        android:id="@+id/banner_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/mn"
+        android:contentDescription="Promotional Banner"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"/>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="56dp"
+        app:layout_constraintTop_toBottomOf="@id/banner_image"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation">
 
         <LinearLayout
-            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:scrollbars="none">
+            android:orientation="vertical"
+            android:padding="10dp">
 
-            <!-- Updated RecyclerView -->
+            <!-- Category Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CATEGORIES"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="8dp"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/categories_rc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:orientation="horizontal"/>
 
-        <!-- HomeActivity HorizontalScrollView -->
-        <LinearLayout
-            android:id="@+id/new_products"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/scrollView"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:orientation="vertical">
-
-            <!-- New Products Header -->
+            <!-- New Products Section -->
             <TextView
                 android:id="@+id/headerTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="10dp"
                 android:text="NEW PRODUCTS"
-                android:textColor="#212121"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="8dp"/>
 
-            <!-- Updated RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/products_rc"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"/>
+
+            <!-- Trending Products Section -->
+            <TextView
+                android:id="@+id/trendingTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TRENDING NOW"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="8dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/trending_rc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:orientation="horizontal"/>
+
+            <!-- Exclusives Section -->
+            <TextView
+                android:id="@+id/exclusivesTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="EXCLUSIVE PRODUCTS"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="8dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/exclusives_rc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:orientation="horizontal"/>
+
+            <!-- Most Bought Section -->
+            <TextView
+                android:id="@+id/mostBuysTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MOST BOUGHT"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="8dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/most_buys_rc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:orientation="horizontal"/>
         </LinearLayout>
+    </ScrollView>
 
-    </RelativeLayout>
-
-</ScrollView>
-
-<!-- Bottom Navigation -->
-<FrameLayout
-    android:id="@+id/frame_container"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-    <!-- Updated BottomNavigationView -->
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/navigation_home"
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:foreground="?attr/selectableItemBackground"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@android:color/background_dark"
-        app:itemTextColor="@android:color/background_dark"
-        app:menu="@menu/bottom_navigation_home" />
-</FrameLayout>
+        android:background="@color/white"
+        app:itemIconTint="@color/md_black_1000"
+        app:itemTextColor="@color/md_black_1000"
+        app:menu="@menu/bottom_navigation_home"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-</RelativeLayout>
-
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

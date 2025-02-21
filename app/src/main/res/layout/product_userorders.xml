@@ -4,50 +4,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="12dp"
     app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    app:cardCornerRadius="12dp"
+    app:cardElevation="5dp"
+    android:padding="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="12dp">
 
         <!-- Order ID Section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="start">
+            android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Order ID: "
-                android:textColor="#747474"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textColor="@color/md_black_1000"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/order_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="123456789"
-                android:textColor="#747474"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textColor="@color/md_grey_600" />
         </LinearLayout>
 
-        <!-- Product Price Section -->
+        <!-- Product Price -->
         <TextView
             android:id="@+id/product_price_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="11.99$"
-            android:textColor="@color/md_grey_600"
-            android:textSize="14sp"
+            android:text="₹11.99"
+            android:textSize="18sp"
+            android:textColor="@color/md_red_700"
             android:textStyle="bold" />
+
+        <!-- Divider Line -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/md_grey_300" />
 
         <!-- RecyclerView for Products -->
         <androidx.recyclerview.widget.RecyclerView
@@ -55,7 +64,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            android:nestedScrollingEnabled="false" />
 
     </LinearLayout>
 

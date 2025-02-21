@@ -11,47 +11,62 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="#00FFFFFF"
-        android:elevation="0dp"
-        android:padding="11dp"
-        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:layout_margin="12dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/white"
         android:clickable="true"
-        android:layout_margin="10dp"
-        app:cardElevation="0dp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:focusable="true">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical">
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:gravity="center">
 
+            <!-- Product Image with Rounded Corners -->
             <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="10dp">
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="2dp">
 
                 <ImageView
                     android:id="@+id/product_img"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/img6599"/>
+                    app:srcCompat="@{product.imageUrl}" />
             </androidx.cardview.widget.CardView>
 
+            <!-- Product Title -->
             <TextView
                 android:id="@+id/product_title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{product.nom}"
-            android:textColor="@color/md_black_1000"/>
+                android:textSize="16sp"
+                android:textColor="@color/md_black_1000"
+                android:fontFamily="sans-serif-medium"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:paddingTop="8dp"
+                android:textAlignment="center" />
 
+            <!-- Product Price -->
             <TextView
                 android:id="@+id/product_price"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='@{product.price + " Rupees"}'
-            android:textColor="@color/md_red_A700"/>
+                android:text='@{"₹" + product.price}'
+                android:textSize="14sp"
+                android:textColor="@color/md_red_A700"
+                android:fontFamily="sans-serif"
+                android:paddingTop="4dp"
+                android:textStyle="bold"
+                android:textAlignment="center" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
