@@ -56,8 +56,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbars="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:orientation="horizontal"/>
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"/>
 
             <!-- New Products Section -->
             <TextView
@@ -94,8 +94,7 @@
                 android:id="@+id/trending_rc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:orientation="horizontal"/>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
             <!-- Exclusives Section -->
             <TextView
@@ -113,8 +112,7 @@
                 android:id="@+id/exclusives_rc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:orientation="horizontal"/>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
             <!-- Most Bought Section -->
             <TextView
@@ -132,8 +130,7 @@
                 android:id="@+id/most_buys_rc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:orientation="horizontal"/>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
         </LinearLayout>
     </ScrollView>
 
